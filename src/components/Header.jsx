@@ -6,8 +6,6 @@ import {
   Check,
   RefreshCw,
   Plus,
-  Palette,
-  Sparkles,
   ShieldCheck,
   AlertTriangle,
   Info,
@@ -20,25 +18,18 @@ export default function Header({
   onOpenNewItemModal,
   onOpenCommandPalette,
   setMobileOpen,
-  theme,
-  onSelectTheme,
   onTriggerToast,
   notifications,
   setNotifications
 }) {
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showThemePicker, setShowThemePicker] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const notifRef = useRef(null);
-  const themeRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (notifRef.current && !notifRef.current.contains(event.target)) {
         setShowNotifications(false);
-      }
-      if (themeRef.current && !themeRef.current.contains(event.target)) {
-        setShowThemePicker(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -49,7 +40,7 @@ export default function Header({
     setIsRefreshing(true);
     setTimeout(() => {
       setIsRefreshing(false);
-      onTriggerToast('Live data synchronized with cluster');
+      onTriggerToast('Cluster telemetry synchronized');
     }, 700);
   };
 
@@ -66,14 +57,6 @@ export default function Header({
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  const themes = [
-    { id: 'green', name: 'Emerald Mint', color: '#10b981' },
-    { id: 'dark', name: 'Nebula Violet', color: '#8b5cf6' },
-    { id: 'midnight', name: 'Midnight Azure', color: '#3b82f6' },
-    { id: 'cyberpunk', name: 'Cyberpunk Neon', color: '#ff007f' },
-    { id: 'light', name: 'Clean Arctic', color: '#6366f1' }
-  ];
-
   const tabTitles = {
     dashboard: { title: 'Executive Overview', desc: 'Real-time telemetry, revenue trajectory & cluster operations' },
     analytics: { title: 'Analytics & Insights', desc: 'Cohort retention, geo-distribution, traffic conversions' },
@@ -88,25 +71,25 @@ export default function Header({
   const currentTabInfo = tabTitles[activeTab] || { title: 'Admin Console', desc: 'Nexus Platform Management' };
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800/80 px-4 lg:px-8 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-30 h-16 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 px-4 lg:px-8 flex items-center justify-between gap-4 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
       {/* Left Section: Mobile Toggle & Page Title */}
       <div className="flex items-center gap-3 min-w-0">
         <button
           type="button"
           onClick={() => setMobileOpen(true)}
-          className="lg:hidden p-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:text-white"
+          className="lg:hidden p-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100"
           aria-label="Open sidebar"
         >
           <Menu size={18} />
         </button>
 
         <div className="flex flex-col min-w-0">
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+          <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
             <span>Admin</span>
-            <span className="text-slate-600">/</span>
-            <span className="text-emerald-400 font-semibold capitalize">{activeTab}</span>
+            <span className="text-slate-300">/</span>
+            <span className="text-emerald-700 font-bold capitalize">{activeTab}</span>
           </div>
-          <h1 className="text-base lg:text-lg font-bold text-white truncate leading-tight">
+          <h1 className="text-base lg:text-lg font-extrabold text-slate-900 truncate leading-tight">
             {currentTabInfo.title}
           </h1>
         </div>
@@ -116,13 +99,13 @@ export default function Header({
       <div className="hidden md:flex flex-1 max-w-md mx-2">
         <div
           onClick={onOpenCommandPalette}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-800/60 border border-slate-700/60 text-slate-400 hover:border-slate-600 hover:bg-slate-800/90 cursor-pointer transition-all text-sm group"
+          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-100/90 border border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-white cursor-pointer transition-all text-sm group shadow-inner"
         >
           <div className="flex items-center gap-2.5">
-            <Search size={16} className="text-slate-500 group-hover:text-slate-300 transition-colors" />
-            <span className="truncate">Search commands, users, logs...</span>
+            <Search size={16} className="text-slate-400 group-hover:text-slate-600 transition-colors" />
+            <span className="truncate text-xs sm:text-sm">Search commands, users, logs...</span>
           </div>
-          <kbd className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-slate-700/80 text-slate-300 border border-slate-600/60">
+          <kbd className="font-mono text-[11px] px-1.5 py-0.5 rounded bg-white text-slate-600 border border-slate-200 shadow-sm">
             ⌘K
           </kbd>
         </div>
@@ -131,8 +114,8 @@ export default function Header({
       {/* Right Section: Actions & Controls */}
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {/* Status Pill */}
-        <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse" />
+        <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981] animate-pulse" />
           <span>Uptime: 99.98%</span>
         </div>
 
@@ -140,79 +123,35 @@ export default function Header({
         <button
           type="button"
           onClick={handleRefresh}
-          className="w-9 h-9 rounded-xl border border-slate-700 bg-slate-800/70 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center transition-colors"
+          className="w-9 h-9 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors shadow-sm"
           title="Sync cluster data"
         >
-          <RefreshCw size={16} className={isRefreshing ? 'animate-spin text-emerald-400' : ''} />
+          <RefreshCw size={16} className={isRefreshing ? 'animate-spin text-emerald-600' : ''} />
         </button>
-
-        {/* Theme Picker Dropdown */}
-        <div className="relative" ref={themeRef}>
-          <button
-            type="button"
-            onClick={() => setShowThemePicker(!showThemePicker)}
-            className="w-9 h-9 rounded-xl border border-slate-700 bg-slate-800/70 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center transition-colors"
-            title="Switch color palette"
-          >
-            <Palette size={16} />
-          </button>
-
-          {showThemePicker && (
-            <div className="absolute right-0 mt-2 w-52 p-2 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150">
-              <div className="flex items-center justify-between px-2 py-1.5 border-b border-slate-800 mb-1 text-[11px] font-bold text-slate-400">
-                <span>Color Palette</span>
-                <span className="font-mono text-emerald-400 uppercase">{theme}</span>
-              </div>
-              <div className="space-y-1">
-                {themes.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => {
-                      onSelectTheme(t.id);
-                      setShowThemePicker(false);
-                    }}
-                    className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                      theme === t.id
-                        ? 'bg-slate-800 text-white font-semibold'
-                        : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="w-3 h-3 rounded-full" style={{ backgroundColor: t.color }} />
-                      <span>{t.name}</span>
-                    </div>
-                    {theme === t.id && <Check size={14} className="text-emerald-400" />}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
 
         {/* Notifications Dropdown */}
         <div className="relative" ref={notifRef}>
           <button
             type="button"
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative w-9 h-9 rounded-xl border border-slate-700 bg-slate-800/70 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center transition-colors"
+            className="relative w-9 h-9 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 flex items-center justify-center transition-colors shadow-sm"
             title="Notifications"
           >
             <Bell size={16} />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white font-bold text-[10px] flex items-center justify-center shadow-lg shadow-rose-500/50">
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white font-bold text-[10px] flex items-center justify-center shadow-md">
                 {unreadCount}
               </span>
             )}
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-slate-900 border border-slate-700/80 shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-              <div className="px-4 py-3 bg-slate-800/60 border-b border-slate-800 flex items-center justify-between">
+            <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-white border border-slate-200 shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+              <div className="px-4 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-white">Notifications</span>
+                  <span className="text-sm font-bold text-slate-900">Notifications</span>
                   {unreadCount > 0 && (
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
                       {unreadCount} new
                     </span>
                   )}
@@ -222,7 +161,7 @@ export default function Header({
                     <button
                       type="button"
                       onClick={markAllRead}
-                      className="text-xs text-emerald-400 hover:underline font-semibold"
+                      className="text-xs text-emerald-700 hover:underline font-semibold"
                     >
                       Mark read
                     </button>
@@ -231,7 +170,7 @@ export default function Header({
                     <button
                       type="button"
                       onClick={clearNotifications}
-                      className="p-1 rounded text-slate-400 hover:text-rose-400 transition-colors"
+                      className="p-1 rounded text-slate-400 hover:text-rose-600 transition-colors"
                       title="Clear notifications"
                     >
                       <Trash2 size={13} />
@@ -240,10 +179,10 @@ export default function Header({
                 </div>
               </div>
 
-              <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60">
+              <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
                 {notifications.length === 0 ? (
-                  <div className="py-8 text-center text-slate-500 text-xs flex flex-col items-center gap-2">
-                    <CheckCircle2 size={24} className="text-slate-600" />
+                  <div className="py-8 text-center text-slate-400 text-xs flex flex-col items-center gap-2">
+                    <CheckCircle2 size={24} className="text-slate-300" />
                     <span>No unread notifications</span>
                   </div>
                 ) : (
@@ -255,24 +194,24 @@ export default function Header({
                           prev.map((item) => (item.id === n.id ? { ...item, read: true } : item))
                         );
                       }}
-                      className={`p-3.5 flex gap-3 hover:bg-slate-800/50 cursor-pointer transition-colors relative ${
-                        !n.read ? 'bg-slate-800/30' : ''
+                      className={`p-3.5 flex gap-3 hover:bg-slate-50 cursor-pointer transition-colors relative ${
+                        !n.read ? 'bg-emerald-50/30' : ''
                       }`}
                     >
                       <div className="mt-0.5 shrink-0">
-                        {n.type === 'alert' && <AlertTriangle size={16} className="text-amber-400" />}
-                        {n.type === 'security' && <ShieldCheck size={16} className="text-emerald-400" />}
-                        {n.type === 'info' && <Info size={16} className="text-teal-400" />}
+                        {n.type === 'alert' && <AlertTriangle size={16} className="text-amber-500" />}
+                        {n.type === 'security' && <ShieldCheck size={16} className="text-emerald-600" />}
+                        {n.type === 'info' && <Info size={16} className="text-teal-600" />}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-0.5">
-                          <span className="text-xs font-semibold text-white truncate">{n.title}</span>
-                          <span className="text-[10px] text-slate-500">{n.time}</span>
+                          <span className="text-xs font-bold text-slate-900 truncate">{n.title}</span>
+                          <span className="text-[10px] text-slate-400">{n.time}</span>
                         </div>
-                        <p className="text-[11px] text-slate-400 leading-relaxed">{n.message}</p>
+                        <p className="text-[11px] text-slate-600 leading-relaxed">{n.message}</p>
                       </div>
                       {!n.read && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 self-center" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 self-center" />
                       )}
                     </div>
                   ))
@@ -286,7 +225,7 @@ export default function Header({
         <button
           type="button"
           onClick={onOpenNewItemModal}
-          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-semibold text-xs shadow-lg shadow-emerald-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold text-xs shadow-md shadow-emerald-700/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
         >
           <Plus size={15} />
           <span className="hidden sm:inline">New Entry</span>

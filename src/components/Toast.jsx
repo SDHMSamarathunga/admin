@@ -9,11 +9,11 @@ export default function Toast({ toasts }) {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900/95 border border-emerald-500/30 text-white text-xs sm:text-sm font-medium shadow-2xl shadow-black/80 backdrop-blur-md pointer-events-auto animate-in slide-in-from-bottom-4 duration-200"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-emerald-200 text-slate-800 text-xs sm:text-sm font-semibold shadow-xl shadow-slate-900/10 backdrop-blur-md pointer-events-auto animate-in slide-in-from-bottom-4 duration-200"
           role="status"
         >
-          <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-            <CheckCircle2 size={15} />
+          <div className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
+            <CheckCircle2 size={16} />
           </div>
           <span>{toast.message}</span>
         </div>

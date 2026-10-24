@@ -11,7 +11,6 @@ import {
   Settings,
   X,
   ArrowRight,
-  Palette,
   Plus,
   RefreshCw
 } from 'lucide-react';
@@ -20,7 +19,6 @@ export default function CommandPalette({
   isOpen,
   onClose,
   setActiveTab,
-  onSelectTheme,
   onTriggerToast,
   onOpenNewItemModal
 }) {
@@ -52,7 +50,7 @@ export default function CommandPalette({
   if (!isOpen) return null;
 
   const allCommands = [
-    { id: 'tab-dashboard', group: 'Navigation', label: 'Go to Dashboard Overview', icon: LayoutDashboard, action: () => { setActiveTab('dashboard'); onClose(); } },
+    { id: 'tab-dashboard', group: 'Navigation', label: 'Go to Executive Overview', icon: LayoutDashboard, action: () => { setActiveTab('dashboard'); onClose(); } },
     { id: 'tab-analytics', group: 'Navigation', label: 'Go to Analytics & Metrics', icon: BarChart3, action: () => { setActiveTab('analytics'); onClose(); } },
     { id: 'tab-users', group: 'Navigation', label: 'Go to Users & Team Directory', icon: Users, action: () => { setActiveTab('users'); onClose(); } },
     { id: 'tab-orders', group: 'Navigation', label: 'Go to Orders & Sales Ledger', icon: ShoppingCart, action: () => { setActiveTab('orders'); onClose(); } },
@@ -64,13 +62,7 @@ export default function CommandPalette({
     { id: 'act-new-user', group: 'Quick Actions', label: 'Invite New Team Member', icon: Plus, action: () => { onClose(); onOpenNewItemModal('user'); } },
     { id: 'act-new-product', group: 'Quick Actions', label: 'Provision New Catalog SKU', icon: Plus, action: () => { onClose(); onOpenNewItemModal('product'); } },
     { id: 'act-new-key', group: 'Quick Actions', label: 'Generate API Bearer Token', icon: Plus, action: () => { onClose(); onOpenNewItemModal('api-key'); } },
-    { id: 'act-refresh', group: 'Quick Actions', label: 'Sync Cluster Nodes', icon: RefreshCw, action: () => { onClose(); onTriggerToast('Cluster sync dispatched'); } },
-    
-    { id: 'theme-green', group: 'Themes', label: 'Switch to Emerald Mint Theme', icon: Palette, action: () => { onSelectTheme('green'); onClose(); } },
-    { id: 'theme-dark', group: 'Themes', label: 'Switch to Nebula Violet Theme', icon: Palette, action: () => { onSelectTheme('dark'); onClose(); } },
-    { id: 'theme-midnight', group: 'Themes', label: 'Switch to Midnight Azure Theme', icon: Palette, action: () => { onSelectTheme('midnight'); onClose(); } },
-    { id: 'theme-cyberpunk', group: 'Themes', label: 'Switch to Cyberpunk Neon Theme', icon: Palette, action: () => { onSelectTheme('cyberpunk'); onClose(); } },
-    { id: 'theme-light', group: 'Themes', label: 'Switch to Clean Arctic Light Theme', icon: Palette, action: () => { onSelectTheme('light'); onClose(); } }
+    { id: 'act-refresh', group: 'Quick Actions', label: 'Sync Cluster Nodes', icon: RefreshCw, action: () => { onClose(); onTriggerToast('Cluster sync dispatched'); } }
   ];
 
   const filteredCommands = allCommands.filter((cmd) =>
@@ -97,20 +89,20 @@ export default function CommandPalette({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/75 backdrop-blur-md flex items-start justify-center pt-20 px-4 animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-start justify-center pt-20 px-4 animate-in fade-in duration-150"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150"
+        className="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-800">
-          <Search size={18} className="text-emerald-400 shrink-0" />
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100">
+          <Search size={18} className="text-emerald-600 shrink-0" />
           <input
             ref={inputRef}
             type="text"
-            className="flex-1 bg-transparent border-0 text-white placeholder-slate-500 text-sm focus:outline-none"
-            placeholder="Type a command, search tab, or toggle theme..."
+            className="flex-1 bg-transparent border-0 text-slate-900 placeholder-slate-400 text-sm focus:outline-none"
+            placeholder="Type a command, search tab, or quick action..."
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -121,7 +113,7 @@ export default function CommandPalette({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
           >
             <X size={16} />
           </button>
@@ -129,7 +121,7 @@ export default function CommandPalette({
 
         <div className="max-h-80 overflow-y-auto p-2 space-y-1">
           {filteredCommands.length === 0 ? (
-            <div className="py-8 text-center text-sm text-slate-500">
+            <div className="py-8 text-center text-sm text-slate-400">
               No matching actions found for "{query}"
             </div>
           ) : (
@@ -142,27 +134,29 @@ export default function CommandPalette({
                   onClick={() => handleSelect(cmd)}
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm cursor-pointer transition-colors ${
-                    isSelected ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800/60'
+                    isSelected
+                      ? 'bg-emerald-50 text-slate-900 font-semibold'
+                      : 'text-slate-700 hover:bg-slate-50'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
                         isSelected
-                          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                          : 'bg-slate-800 text-slate-400'
+                          ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                          : 'bg-slate-100 text-slate-500'
                       }`}
                     >
                       <Icon size={15} />
                     </div>
                     <div>
-                      <div className="font-medium text-xs sm:text-sm">{cmd.label}</div>
-                      <div className="text-[10px] text-slate-500">{cmd.group}</div>
+                      <div className="font-semibold text-xs sm:text-sm">{cmd.label}</div>
+                      <div className="text-[10px] text-slate-400 font-medium">{cmd.group}</div>
                     </div>
                   </div>
                   <ArrowRight
                     size={14}
-                    className={`transition-opacity ${isSelected ? 'opacity-100 text-emerald-400' : 'opacity-0'}`}
+                    className={`transition-opacity ${isSelected ? 'opacity-100 text-emerald-600' : 'opacity-0'}`}
                   />
                 </div>
               );
@@ -170,10 +164,10 @@ export default function CommandPalette({
           )}
         </div>
 
-        <div className="px-4 py-2.5 bg-slate-800/60 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-          <span>Navigate <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono">↑</kbd> <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono">↓</kbd></span>
-          <span>Execute <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono">↵</kbd></span>
-          <span>Close <kbd className="px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-mono">ESC</kbd></span>
+        <div className="px-4 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span>Navigate <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700 font-mono shadow-sm">↑</kbd> <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700 font-mono shadow-sm">↓</kbd></span>
+          <span>Execute <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700 font-mono shadow-sm">↵</kbd></span>
+          <span>Close <kbd className="px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700 font-mono shadow-sm">ESC</kbd></span>
         </div>
       </div>
     </div>

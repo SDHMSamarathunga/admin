@@ -50,28 +50,28 @@ export default function ActivityTab({
     switch (sev) {
       case 'Error':
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200">
             <AlertCircle size={11} />
             <span>ERROR</span>
           </span>
         );
       case 'Warning':
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
             <AlertTriangle size={11} />
             <span>WARN</span>
           </span>
         );
       case 'Success':
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
             <CheckCircle2 size={11} />
             <span>OK</span>
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-teal-500/15 text-teal-400 border border-teal-500/20">
+          <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded bg-teal-50 text-teal-700 border border-teal-200">
             <Info size={11} />
             <span>INFO</span>
           </span>
@@ -82,14 +82,14 @@ export default function ActivityTab({
   return (
     <div className="space-y-6">
       {/* Controls Bar */}
-      <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 backdrop-blur-xl">
+      <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-800/60 border border-slate-700/60 text-sm flex-1 max-w-md">
+          <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm flex-1 max-w-md focus-within:bg-white focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
             <Search size={16} className="text-slate-400 shrink-0" />
             <input
               type="text"
               placeholder="Search audit trail by event, actor, or IP..."
-              className="bg-transparent border-0 text-white placeholder-slate-500 text-xs sm:text-sm focus:outline-none w-full"
+              className="bg-transparent border-0 text-slate-900 placeholder-slate-400 text-xs sm:text-sm focus:outline-none w-full"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -97,7 +97,7 @@ export default function ActivityTab({
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="text-slate-400 hover:text-white"
+                className="text-slate-400 hover:text-slate-600 text-base"
               >
                 ×
               </button>
@@ -106,7 +106,7 @@ export default function ActivityTab({
 
           <div className="flex items-center gap-2.5 flex-wrap">
             <select
-              className="px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 text-xs font-medium focus:outline-none focus:border-emerald-500 cursor-pointer"
+              className="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 text-xs font-medium focus:outline-none focus:border-emerald-500 focus:bg-white cursor-pointer"
               value={severityFilter}
               onChange={(e) => setSeverityFilter(e.target.value)}
             >
@@ -123,29 +123,29 @@ export default function ActivityTab({
                 setIsLiveStreaming(!isLiveStreaming);
                 onTriggerToast(isLiveStreaming ? 'Live stream paused' : 'Live stream active');
               }}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors border ${
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all border ${
                 isLiveStreaming
-                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                  : 'bg-slate-800 border-slate-700 text-slate-400'
+                  ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                  : 'bg-slate-100 border-slate-200 text-slate-600'
               }`}
             >
-              <Radio size={14} className={isLiveStreaming ? 'animate-pulse' : ''} />
+              <Radio size={14} className={isLiveStreaming ? 'animate-pulse text-emerald-600' : ''} />
               <span>{isLiveStreaming ? 'Live Stream: On' : 'Paused'}</span>
             </button>
 
             <button
               type="button"
               onClick={() => onTriggerToast(`Exporting ${filteredLogs.length} audit records...`)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 text-xs font-semibold shadow-sm transition-colors"
             >
-              <Download size={14} />
+              <Download size={14} className="text-slate-500" />
               <span>Export</span>
             </button>
 
             <button
               type="button"
               onClick={handleClearLogs}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:text-rose-400 text-xs font-semibold transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-rose-600 hover:bg-rose-50 text-xs font-semibold shadow-sm transition-colors"
             >
               <Trash2 size={14} />
               <span>Clear</span>
@@ -155,21 +155,21 @@ export default function ActivityTab({
       </div>
 
       {/* Audit Log Stream */}
-      <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 backdrop-blur-xl">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
+        <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-base font-bold text-white">Immutable Audit Ledger</h2>
-            <p className="text-xs text-slate-400">Zero-trust cryptographic trail of administrative and API actions</p>
+            <h2 className="text-base font-bold text-slate-900">Immutable Audit Ledger</h2>
+            <p className="text-xs text-slate-500">Zero-trust cryptographic trail of administrative and API actions</p>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-400 border border-teal-500/20">
+          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
             {filteredLogs.length} EVENTS RECORDED
           </span>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {filteredLogs.length === 0 ? (
-            <div className="py-12 text-center text-slate-500 text-xs">
-              <Activity size={28} className="mx-auto mb-2 text-slate-600" />
+            <div className="py-12 text-center text-slate-400 text-xs">
+              <Activity size={32} className="mx-auto mb-2 text-slate-300" />
               <span>No audit logs match criteria</span>
             </div>
           ) : (
@@ -178,29 +178,29 @@ export default function ActivityTab({
               return (
                 <div
                   key={log.id}
-                  className="rounded-xl border border-slate-800 bg-slate-800/40 hover:border-slate-700 transition-colors overflow-hidden"
+                  className="rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-slate-300 transition-colors overflow-hidden"
                 >
                   <div
                     onClick={() => toggleExpand(log.id)}
-                    className="p-3 sm:px-4 flex items-center justify-between gap-3 cursor-pointer text-xs"
+                    className="p-3.5 sm:px-4 flex items-center justify-between gap-3 cursor-pointer text-xs"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div className="flex items-center gap-1 font-mono text-[11px] text-slate-500 shrink-0">
-                        <Clock size={12} />
+                        <Clock size={12} className="text-slate-400" />
                         <span>{log.timestamp}</span>
                       </div>
                       <div className="shrink-0">{getSeverityBadge(log.severity)}</div>
                       <div className="min-w-0">
-                        <span className="font-semibold text-white mr-2">{log.event}</span>
-                        <span className="text-slate-400 hidden md:inline truncate">{log.details}</span>
+                        <span className="font-bold text-slate-900 mr-2">{log.event}</span>
+                        <span className="text-slate-500 hidden md:inline truncate">{log.details}</span>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-3 shrink-0">
-                      <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 hidden sm:inline">
+                      <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 hidden sm:inline font-semibold">
                         {log.actor}
                       </span>
-                      <span className="font-mono text-[11px] text-slate-500 hidden lg:inline">{log.ip}</span>
+                      <span className="font-mono text-[11px] text-slate-400 hidden lg:inline">{log.ip}</span>
                       <div className="text-slate-400">
                         {isExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                       </div>
@@ -209,13 +209,13 @@ export default function ActivityTab({
 
                   {/* Expanded JSON Inspector */}
                   {isExpanded && (
-                    <div className="p-4 bg-slate-950/80 border-t border-slate-800 font-mono text-[11px]">
+                    <div className="p-4 bg-slate-900 border-t border-slate-800 font-mono text-[11px] text-slate-300 rounded-b-xl">
                       <div className="flex items-center gap-2 text-slate-400 text-xs mb-2">
                         <Code2 size={13} className="text-emerald-400" />
-                        <span className="font-bold text-slate-300">Telemetry Payload</span>
+                        <span className="font-bold text-white">Telemetry Payload</span>
                         <span className="text-[10px] text-teal-400">ID: {log.id}</span>
                       </div>
-                      <pre className="text-emerald-300/90 leading-relaxed overflow-x-auto p-3 rounded-lg bg-slate-900 border border-slate-800">
+                      <pre className="text-emerald-300/90 leading-relaxed overflow-x-auto p-3 rounded-lg bg-slate-950 border border-slate-800">
 {JSON.stringify(
   {
     eventId: log.id,

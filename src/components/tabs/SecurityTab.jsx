@@ -53,16 +53,16 @@ export default function SecurityTab({
   return (
     <div className="space-y-6">
       {/* API Keys Management */}
-      <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 backdrop-blur-xl">
+      <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
-            <h2 className="text-base font-bold text-white">Production & Staging API Tokens</h2>
-            <p className="text-xs text-slate-400">Cryptographic credentials for cluster mesh and SDK execution</p>
+            <h2 className="text-base font-bold text-slate-900">Production & Staging API Tokens</h2>
+            <p className="text-xs text-slate-500">Cryptographic credentials for cluster mesh and SDK execution</p>
           </div>
           <button
             type="button"
             onClick={onOpenNewKeyModal}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white text-xs font-semibold shadow-md shadow-emerald-500/20 self-start sm:self-auto transition-all"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs font-semibold shadow-md shadow-emerald-700/20 self-start sm:self-auto transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <Plus size={14} />
             <span>Generate Key</span>
@@ -73,30 +73,30 @@ export default function SecurityTab({
           {apiKeys.map((k) => (
             <div
               key={k.id}
-              className="p-4 rounded-xl bg-slate-800/40 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
             >
               <div className="space-y-1.5 min-w-0">
                 <div className="flex items-center gap-2">
-                  <Key size={15} className="text-emerald-400 shrink-0" />
-                  <span className="font-bold text-white text-xs sm:text-sm truncate">{k.name}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-800 text-teal-400 border border-slate-700">
+                  <Key size={15} className="text-emerald-600 shrink-0" />
+                  <span className="font-bold text-slate-900 text-xs sm:text-sm truncate">{k.name}</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-teal-50 text-teal-700 border border-teal-200">
                     {k.scope}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <code className="font-mono text-xs text-slate-300 bg-slate-900/80 px-2.5 py-1 rounded border border-slate-800 truncate">
+                  <code className="font-mono text-xs text-slate-700 bg-white px-2.5 py-1 rounded border border-slate-200 shadow-inner truncate">
                     {k.key}
                   </code>
                   <button
                     type="button"
                     onClick={() => handleCopyKey(k.id, k.key)}
-                    className="p-1 rounded bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-colors shrink-0"
+                    className="p-1 rounded bg-white border border-slate-200 text-slate-500 hover:text-slate-900 shadow-sm transition-colors shrink-0"
                     title="Copy token"
                   >
-                    {copiedKeyId === k.id ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                    {copiedKeyId === k.id ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
                   </button>
                 </div>
-                <div className="flex items-center gap-3 text-[11px] text-slate-500">
+                <div className="flex items-center gap-3 text-[11px] text-slate-500 font-medium">
                   <span>Created: {k.created}</span>
                   <span>•</span>
                   <span>Last invoked: {k.lastUsed}</span>
@@ -106,7 +106,7 @@ export default function SecurityTab({
               <button
                 type="button"
                 onClick={() => handleRevokeKey(k.id, k.name)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 text-rose-400 hover:bg-rose-500/10 text-xs font-semibold self-start sm:self-auto transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 bg-white text-rose-600 hover:bg-rose-50 shadow-sm text-xs font-semibold self-start sm:self-auto transition-colors"
               >
                 <Trash2 size={13} />
                 <span>Revoke</span>
@@ -119,20 +119,20 @@ export default function SecurityTab({
       {/* Security Policies & Webhooks Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Access Governance */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 backdrop-blur-xl space-y-5">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-sm space-y-5">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-white">Access Governance & Policies</h2>
-              <p className="text-xs text-slate-400">Zero-trust security rules and restrictions</p>
+              <h2 className="text-base font-bold text-slate-900">Access Governance & Policies</h2>
+              <p className="text-xs text-slate-500">Zero-trust security rules and restrictions</p>
             </div>
-            <Shield size={18} className="text-emerald-400" />
+            <Shield size={18} className="text-emerald-600" />
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between gap-4 py-2 border-b border-slate-800">
+            <div className="flex items-center justify-between gap-4 py-2 border-b border-slate-100">
               <div>
-                <div className="text-xs font-bold text-white">Enforce Hardware 2FA (WebAuthn/TOTP)</div>
-                <div className="text-[11px] text-slate-400">Require multi-factor authorization for all tenant admins.</div>
+                <div className="text-xs font-bold text-slate-900">Enforce Hardware 2FA (WebAuthn/TOTP)</div>
+                <div className="text-[11px] text-slate-500">Require multi-factor authorization for all tenant admins.</div>
               </div>
               <input
                 type="checkbox"
@@ -141,14 +141,14 @@ export default function SecurityTab({
                   setTwoFactorEnforced(e.target.checked);
                   onTriggerToast(`2FA Policy ${e.target.checked ? 'Enforced' : 'Relaxed'}`);
                 }}
-                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer"
+                className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
               />
             </div>
 
-            <div className="flex items-center justify-between gap-4 py-2 border-b border-slate-800">
+            <div className="flex items-center justify-between gap-4 py-2 border-b border-slate-100">
               <div>
-                <div className="text-xs font-bold text-white">Strict IP CIDR Whitelisting</div>
-                <div className="text-[11px] text-slate-400">Restrict access to authenticated corporate VPN subnets.</div>
+                <div className="text-xs font-bold text-slate-900">Strict IP CIDR Whitelisting</div>
+                <div className="text-[11px] text-slate-500">Restrict access to authenticated corporate VPN subnets.</div>
               </div>
               <input
                 type="checkbox"
@@ -157,17 +157,17 @@ export default function SecurityTab({
                   setIpWhitelistActive(e.target.checked);
                   onTriggerToast(`IP Whitelist ${e.target.checked ? 'Activated' : 'Disabled'}`);
                 }}
-                className="w-4 h-4 rounded bg-slate-800 border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer"
+                className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
               />
             </div>
 
             <div className="flex items-center justify-between gap-4 py-2">
               <div>
-                <div className="text-xs font-bold text-white">Inactivity Session Timeout</div>
-                <div className="text-[11px] text-slate-400">Evict dormant browser sessions after idle duration.</div>
+                <div className="text-xs font-bold text-slate-900">Inactivity Session Timeout</div>
+                <div className="text-[11px] text-slate-500">Evict dormant browser sessions after idle duration.</div>
               </div>
               <select
-                className="px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 text-xs font-medium focus:outline-none"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold focus:outline-none focus:border-emerald-500 focus:bg-white cursor-pointer"
                 value={sessionTimeout}
                 onChange={(e) => {
                   setSessionTimeout(e.target.value);
@@ -184,34 +184,34 @@ export default function SecurityTab({
         </div>
 
         {/* Webhooks */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 backdrop-blur-xl space-y-4">
+        <div className="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-white">Webhooks & Alert Routing</h2>
-              <p className="text-xs text-slate-400">Real-time HTTP push deliveries</p>
+              <h2 className="text-base font-bold text-slate-900">Webhooks & Alert Routing</h2>
+              <p className="text-xs text-slate-500">Real-time HTTP push deliveries</p>
             </div>
-            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
               HEALTHY
             </span>
           </div>
 
           <div className="space-y-3">
             {webhooks.map((w) => (
-              <div key={w.id} className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-800 space-y-2">
+              <div key={w.id} className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-xs font-bold text-white">
-                    <Radio size={14} className="text-emerald-400" />
+                  <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
+                    <Radio size={14} className="text-emerald-600" />
                     <span>{w.name}</span>
                   </div>
-                  <span className="font-mono text-[11px] text-emerald-400">{w.latency}</span>
+                  <span className="font-mono text-[11px] font-bold text-emerald-700">{w.latency}</span>
                 </div>
-                <code className="block font-mono text-[11px] text-slate-400 bg-slate-900/80 px-2 py-1 rounded border border-slate-800 truncate">
+                <code className="block font-mono text-[11px] text-slate-600 bg-white px-2.5 py-1 rounded border border-slate-200 shadow-inner truncate">
                   {w.url}
                 </code>
                 <div className="flex items-center justify-between pt-1">
                   <div className="flex gap-1.5 flex-wrap">
                     {w.events.map((ev, i) => (
-                      <span key={i} className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
+                      <span key={i} className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
                         {ev}
                       </span>
                     ))}
@@ -219,7 +219,7 @@ export default function SecurityTab({
                   <button
                     type="button"
                     onClick={() => onTriggerToast(`Ping sent to ${w.name} (HTTP 200 OK)`)}
-                    className="flex items-center gap-1 text-[11px] font-semibold text-emerald-400 hover:underline"
+                    className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 hover:underline"
                   >
                     <RefreshCw size={11} />
                     <span>Test Ping</span>

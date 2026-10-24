@@ -304,7 +304,6 @@ const INITIAL_NOTIFICATIONS = [
 ];
 
 export default function App() {
-  // Tab routing state synchronized with URL hash
   const getInitialTab = () => {
     const hash = window.location.hash.replace('#', '');
     const validTabs = ['dashboard', 'analytics', 'users', 'orders', 'products', 'activity', 'security', 'settings'];
@@ -314,9 +313,7 @@ export default function App() {
   const [activeTab, setActiveTabState] = useState(getInitialTab);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [theme, setTheme] = useState('green');
 
-  // Sync activeTab with URL hash for browser history and deep linking
   const setActiveTab = (tabId) => {
     setActiveTabState(tabId);
     window.location.hash = tabId;
@@ -352,18 +349,12 @@ export default function App() {
   // Toasts
   const [toasts, setToasts] = useState([]);
 
-  // Toast dispatcher
   const triggerToast = (message) => {
     const id = Date.now() + Math.random();
     setToasts((prev) => [...prev, { id, message }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 3500);
-  };
-
-  const handleSelectTheme = (newTheme) => {
-    setTheme(newTheme);
-    triggerToast(`Theme switched to ${newTheme.toUpperCase()}`);
   };
 
   const handleOpenNewItem = (type) => {
@@ -379,8 +370,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-white">
-      {/* Side Panel */}
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-emerald-500 selection:text-white">
+      {/* Side Panel (Green Theme) */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -391,26 +382,24 @@ export default function App() {
         onTriggerToast={triggerToast}
       />
 
-      {/* Main Administrative Canvas */}
+      {/* Main Administrative Canvas (White/Light Theme) */}
       <div
         className={`flex flex-col min-h-screen transition-all duration-300 ${
           isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'
-        }`}
+        } bg-slate-50`}
       >
-        {/* Top Header */}
+        {/* Top Header (Clean White Bar) */}
         <Header
           activeTab={activeTab}
           onOpenNewItemModal={() => handleOpenNewItem()}
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
           setMobileOpen={setMobileOpen}
-          theme={theme}
-          onSelectTheme={handleSelectTheme}
           onTriggerToast={triggerToast}
           notifications={notifications}
           setNotifications={setNotifications}
         />
 
-        {/* Dynamic Tab Router Content */}
+        {/* Dynamic Tab Router Content (White / Crisp Light Background) */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           {activeTab === 'dashboard' && (
             <DashboardTab
@@ -473,20 +462,17 @@ export default function App() {
 
           {activeTab === 'settings' && (
             <SettingsTab
-              theme={theme}
-              onSelectTheme={handleSelectTheme}
               onTriggerToast={triggerToast}
             />
           )}
         </main>
       </div>
 
-      {/* Global Command Palette (Cmd+K) */}
+      {/* Global Command Palette */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
         setActiveTab={setActiveTab}
-        onSelectTheme={handleSelectTheme}
         onTriggerToast={triggerToast}
         onOpenNewItemModal={handleOpenNewItem}
       />
